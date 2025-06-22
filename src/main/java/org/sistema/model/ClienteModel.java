@@ -6,8 +6,8 @@ import org.sistema.entity.Corriente;
 import org.sistema.entity.Empresa;
 import org.sistema.entity.Natural;
 import org.sistema.repository.Data;
-import org.sistema.repository.PersistenceInterface;
-import org.sistema.repository.PersistenciaClientes;
+import org.sistema.interfaces.PersistenceInterface;
+import org.sistema.persistencia.PersistenciaClientes;
 import org.sistema.use_case.ClienteUseCase;
 
 import java.util.List;

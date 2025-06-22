@@ -1,11 +1,12 @@
-package org.sistema.repository;
+package org.sistema.persistencia;
 
 import org.sistema.entity.Natural;
+import org.sistema.interfaces.PersistenceInterface;
 
 import java.io.*;
 import java.util.List;
 
-public class PersistenciaClientes implements PersistenceInterface{
+public class PersistenciaClientes implements PersistenceInterface {
     @Override
     public boolean importarListaNaturales(List<Natural> naturales) {
         File archivo = new File("src/main/java/org/sistema/data/naturales.txt");

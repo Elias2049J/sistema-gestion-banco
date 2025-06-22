@@ -1,4 +1,4 @@
-package org.sistema.repository;
+package org.sistema.interfaces;
 
 import org.sistema.entity.Natural;
 
