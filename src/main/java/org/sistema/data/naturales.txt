@@ -1,0 +1,2 @@
+Id Cliente   Nombre          Apellido        DNI    Direccion 
+1          hola         mundo           12345678   calle 13            
