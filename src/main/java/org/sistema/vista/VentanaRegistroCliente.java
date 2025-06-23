@@ -1,8 +1,5 @@
 package org.sistema.vista;
 
-import org.sistema.model.ClienteModel;
-import org.sistema.use_case.ClienteUseCase;
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
@@ -25,8 +22,6 @@ public class VentanaRegistroCliente extends JFrame{
     }
 
     class LienzoCentral extends JPanel {
-        private ClienteUseCase clienteMOdel = new ClienteModel();
-
         private JLabel lblRegistro = new JLabel("INGRESAR DATOS", SwingConstants.CENTER);
 
         private JLabel lblNombre = new JLabel("Nombres:");
@@ -95,7 +90,6 @@ public class VentanaRegistroCliente extends JFrame{
                 String dni = jtfDni.getText();
                 String direccion = jtfDireccion.getText();
 
-                clienteMOdel.crearNatural(nombre, apellido, dni, direccion);
                 JOptionPane.showMessageDialog(this, "Se ha registrado correctamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
             });
         }
@@ -105,7 +99,7 @@ public class VentanaRegistroCliente extends JFrame{
         LienzoHeader (){
             super();
             this.setLayout(new BorderLayout());
-            this.setBackground(new Color(37, 168, 63));
+            this.setBackground(new Color(37, 55, 40));
         }
 
         @Override
@@ -123,7 +117,7 @@ public class VentanaRegistroCliente extends JFrame{
         public LienzoFooter (){
             super();
             this.setLayout(new BorderLayout());
-            this.setBackground(new Color(37, 168, 63));
+            this.setBackground(new Color(37, 55, 40));
             this.setForeground(Color.WHITE);
             this.add(btnSalir, BorderLayout.EAST);
             this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));

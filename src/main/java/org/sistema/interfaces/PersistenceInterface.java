@@ -1,10 +1,8 @@
 package org.sistema.interfaces;
 
-import org.sistema.entity.Natural;
-
 import java.util.List;
 
-public interface PersistenceInterface {
-    boolean importarListaNaturales(List<Natural> naturales);
-    boolean exportarListaNaturales(List<Natural> lista);
+public interface PersistenceInterface<T> {
+    boolean importarLista(List<T> lista);
+    boolean exportarLista(List<T> lista);
 }

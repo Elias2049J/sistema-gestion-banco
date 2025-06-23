@@ -32,23 +32,44 @@ public class VentanaClientes extends JFrame{
         public LienzoHeader (LienzoCentral lienzoCentral){
             super();
             this.setLayout(new GridBagLayout());
-            this.setBackground(new Color(0, 137, 1));
+            this.setBackground(new Color(30, 31, 34));
             this.gbcHeader.insets = new Insets(10, 10, 10, 10);
+            this.btnInicio.setBackground(new Color(0x1B4686));
+            this.btnInicio.setForeground(Color.WHITE);
+            this.btnClientes.setBackground(new Color(0x1B4686));
+            this.btnClientes.setForeground(Color.WHITE);
+            this.btnCuentas.setBackground(new Color(0x1B4686));
+            this.btnCuentas.setForeground(Color.WHITE);
+
+            gbcHeader.gridx = 1;
+            gbcHeader.gridy = 1;
+            gbcHeader.weighty = 1;
+            gbcHeader.weightx = 1;
+            gbcHeader.gridwidth = 1;
             this.lblTitulo.setFont(new Font("Arial", Font.BOLD, 24));
             this.lblTitulo.setForeground(Color.WHITE);
-            this.btnInicio.setBackground(new Color(0x064706));
-            this.btnInicio.setForeground(new Color(0xFFFEFE));
-            this.btnClientes.setBackground(new Color(0x064706));
-            this.btnClientes.setForeground(new Color(0xFFFEFE));
-            this.btnCuentas.setBackground(new Color(0x064706));
-            this.btnCuentas.setForeground(new Color(0xFFFEFE));
             this.add(lblTitulo, gbcHeader);
+            gbcHeader.gridx++;
+            gbcHeader.weighty = 1;
+            gbcHeader.weightx = 1;
+            gbcHeader.gridwidth = 1;
+            gbcHeader.fill = GridBagConstraints.VERTICAL;
+            this.add(Box.createHorizontalStrut(10), gbcHeader);
+            gbcHeader.gridx++;
+            gbcHeader.weighty = 1;
+            gbcHeader.weightx = 1;
+            gbcHeader.gridwidth = 1;
+            gbcHeader.fill = GridBagConstraints.NONE;
             this.add(btnInicio, gbcHeader);
+            gbcHeader.gridx++;
+            gbcHeader.gridwidth = 1;
             this.add(btnClientes, gbcHeader);
+            gbcHeader.gridx++;
+            gbcHeader.gridwidth = 1;
             this.add(btnCuentas, gbcHeader);
 
             btnInicio.addActionListener(e -> {
-                lienzoCentral.removeAll();
+                this.lienzoCentral.removeAll();
             });
         }
 
@@ -94,11 +115,11 @@ public class VentanaClientes extends JFrame{
             this.panelBtns.setLayout(new GridBagLayout());
             this.gbcInferior.insets = new Insets(10, 10, 10, 10);
             this.btnGuardar.setBackground(new Color(0x333533));
-            this.btnGuardar.setForeground(new Color(0xFFFEFE));
+            this.btnGuardar.setForeground(Color.WHITE);
             this.btnDescartar.setBackground(new Color(0x333533));
-            this.btnDescartar.setForeground(new Color(0xFFFEFE));
+            this.btnDescartar.setForeground(Color.WHITE);
             this.btnRegCli.setBackground(new Color(0x333533));
-            this.btnRegCli.setForeground(new Color(0xFFFEFE));
+            this.btnRegCli.setForeground(Color.WHITE);
             this.panelBtns.add(btnGuardar, gbcInferior);
             this.panelBtns.add(btnDescartar, gbcInferior);
             this.panelBtns.add(btnRegCli, gbcInferior);
@@ -112,7 +133,7 @@ public class VentanaClientes extends JFrame{
         public LienzoFooter (){
             super();
             this.setLayout(new FlowLayout(FlowLayout.RIGHT));
-            this.setBackground(new Color(0, 137, 1));
+            this.setBackground(new Color(30, 31, 34));
             this.setForeground(Color.WHITE);
             this.add(btnAyuda);
             this.add(btnSalir);
