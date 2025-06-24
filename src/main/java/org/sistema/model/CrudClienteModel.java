@@ -27,11 +27,13 @@ public class CrudClienteModel implements CrudInterface<Cliente, Integer> {
             idCliente = 1;
         } else idCliente = clienteRepository.findAll().getLast().getIdCliente()+1;
         objeto.setIdCliente(idCliente);
+        if (!objeto.esValido()) return false;
         return clienteRepository.save(objeto);
     }
 
     @Override
     public boolean update(Cliente objeto) {
+        if (!objeto.esValido()) return false;
         return clienteRepository.update(objeto);
     }
 

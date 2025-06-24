@@ -35,12 +35,13 @@ public class CrudCuentaModel implements CrudInterface<Cuenta, Integer> {
             idCuenta = 1;
         } else idCuenta = cuentaRepository.findAll().getLast().getIdCuenta()+1;
         objeto.setIdCuenta(idCuenta);
-
+        if (!objeto.esValido()) return false;
         return cuentaRepository.save(objeto);
     }
 
     @Override
     public boolean update(Cuenta objeto) {
+        if (!objeto.esValido()) return false;
         return cuentaRepository.update(objeto);
     }
 

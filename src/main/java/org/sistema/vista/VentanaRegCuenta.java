@@ -3,6 +3,7 @@ package org.sistema.vista;
 import org.sistema.entity.Cliente;
 import org.sistema.entity.Cuenta;
 import org.sistema.interfaces.CrudInterface;
+import org.sistema.model.CrudClienteModel;
 import org.sistema.model.CrudCuentaModel;
 
 import javax.swing.*;
@@ -10,6 +11,7 @@ import java.awt.*;
 
 public class VentanaRegCuenta extends JFrame{
     private CrudInterface<Cuenta, Integer> crudCuentaModel;
+    private CrudInterface<Cliente, Integer> crudClienteModel;
     private VentanaClientes ventanaClientes;
     private LienzoHeader lienzoHeader;
     private LienzoCentral lienzoCentral;
@@ -19,6 +21,7 @@ public class VentanaRegCuenta extends JFrame{
     public VentanaRegCuenta(Integer idCliente){
         super();
         this.idCliente = idCliente;
+        this.crudClienteModel = new CrudClienteModel();
         this.crudCuentaModel = new CrudCuentaModel();
         this.lienzoHeader = new LienzoHeader();
         this.lienzoCentral = new LienzoCentral();
@@ -72,8 +75,11 @@ public class VentanaRegCuenta extends JFrame{
             gbc.gridy = 1;
             gbc.gridwidth = 5;
             gbc.anchor = GridBagConstraints.CENTER;
-            cboTipoCuenta.addItem("Ahorro");
-            cboTipoCuenta.addItem("Corriente");
+            if (crudClienteModel.getById(idCliente).getTipoCliente().equalsIgnoreCase("natural")) {
+                cboTipoCuenta.addItem("Ahorro");
+            } else {
+                cboTipoCuenta.addItem("Corriente");
+            }
             this.add(cboTipoCuenta, gbc);
 
             gbc.anchor = GridBagConstraints.WEST;

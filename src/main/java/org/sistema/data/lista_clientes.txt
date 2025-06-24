@@ -1,1 +1,3 @@
 Id_Cliente   Direccion                      Tipo_Cliente Nombre          Apellido        DNI        Razon_Social                   RUC            
+1            calle 13                       Natural      123             123             12345678                                                 
+2            Calle la reflauta 45           Empresa                                                 Empresa Anemona S.A.C.         10345678911    
