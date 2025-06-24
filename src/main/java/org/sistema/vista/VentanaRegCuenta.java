@@ -1,21 +1,25 @@
 package org.sistema.vista;
 
 import org.sistema.entity.Cliente;
+import org.sistema.entity.Cuenta;
 import org.sistema.interfaces.CrudInterface;
-import org.sistema.model.CrudClienteModel;
+import org.sistema.model.CrudCuentaModel;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class VentanaRegistroCliente extends JFrame{
-    private CrudInterface<Cliente, Integer> crudClienteModel;
+public class VentanaRegCuenta extends JFrame{
+    private CrudInterface<Cuenta, Integer> crudCuentaModel;
+    private VentanaClientes ventanaClientes;
     private LienzoHeader lienzoHeader;
     private LienzoCentral lienzoCentral;
     private LienzoFooter lienzoFooter;
+    private Integer idCliente;
 
-    public VentanaRegistroCliente(){
+    public VentanaRegCuenta(Integer idCliente){
         super();
-        this.crudClienteModel = new CrudClienteModel();
+        this.idCliente = idCliente;
+        this.crudCuentaModel = new CrudCuentaModel();
         this.lienzoHeader = new LienzoHeader();
         this.lienzoCentral = new LienzoCentral();
         this.lienzoFooter = new LienzoFooter();
@@ -30,23 +34,20 @@ public class VentanaRegistroCliente extends JFrame{
     }
 
     class LienzoCentral extends JPanel {
-        private JLabel lblRegistro = new JLabel("INGRESAR DATOS", SwingConstants.CENTER);
+        private JLabel lblRegistro = new JLabel("ABRIR CUENTA", SwingConstants.CENTER);
 
-        private JComboBox<String> cboTipoCliente = new JComboBox<>();
+        private JComboBox<String> cboTipoCuenta = new JComboBox<>();
 
-        private JLabel lblNombre = new JLabel("Nombres:");
-        private JTextField jtfNombre = new JTextField(20);
-        private JLabel lblApellido = new JLabel("Apellidos:");
-        private JTextField jtfApellido = new JTextField(20);
-        private JLabel lblDni = new JLabel("DNI:");
-        private JTextField jtfDni = new JTextField(20);
-        private JLabel lblDireccion = new JLabel("Dirección:");
-        private JTextField jtfDireccion = new JTextField(20);
+        private JLabel lblSaldo = new JLabel("Depósito:");
+        private JTextField jtfSaldo = new JTextField(20);
 
-        private JLabel lblRazonSocial = new JLabel("Razón Social:");
-        private JTextField jtfRazonSocial = new JTextField(20);
-        private JLabel lblRuc = new JLabel("RUC:");
-        private JTextField jtfRuc = new JTextField(20);
+        private JLabel lblTipoMoneda = new JLabel("Tipo de Moneda");
+        private JComboBox<String> cboTipoMoneda = new JComboBox<>();
+
+        private JLabel lblTasa = new JLabel("Tasa de Interés");
+        private JTextField jtfTasa = new JTextField(20);
+        private JLabel lblLimiteGiros = new JLabel("Límite sobre giros");
+        private JTextField jtfLimiteGiros = new JTextField(20);
 
         private JButton btnRegistrar = new JButton("Registrar");
 
@@ -56,8 +57,9 @@ public class VentanaRegistroCliente extends JFrame{
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.insets = new Insets(8, 8, 8, 8);
             gbc.fill = GridBagConstraints.HORIZONTAL;
-            jtfRazonSocial.setEditable(false);
-            jtfRuc.setEditable(false);
+            jtfTasa.setEditable(true);
+            jtfLimiteGiros.setEditable(false);
+            jtfSaldo.setEditable(true);
 
             gbc.gridx = 0;
             gbc.gridy = 0;
@@ -70,26 +72,22 @@ public class VentanaRegistroCliente extends JFrame{
             gbc.gridy = 1;
             gbc.gridwidth = 5;
             gbc.anchor = GridBagConstraints.CENTER;
-            cboTipoCliente.addItem("Natural");
-            cboTipoCliente.addItem("Empresa");
-            this.add(cboTipoCliente, gbc);
+            cboTipoCuenta.addItem("Ahorro");
+            cboTipoCuenta.addItem("Corriente");
+            this.add(cboTipoCuenta, gbc);
 
             gbc.anchor = GridBagConstraints.WEST;
             gbc.gridwidth = 1;
 
             gbc.gridx = 0;
             gbc.gridy = 2;
-            this.add(lblNombre, gbc);
+            this.add(lblTipoMoneda, gbc);
             gbc.gridy++;
-            this.add(lblApellido, gbc);
+            this.add(lblSaldo, gbc);
             gbc.gridy++;
-            this.add(lblDni, gbc);
+            this.add(lblTasa, gbc);
             gbc.gridy++;
-            this.add(lblDireccion, gbc);
-            gbc.gridy++;
-            this.add(lblRazonSocial, gbc);
-            gbc.gridy++;
-            this.add(lblRuc, gbc);
+            this.add(lblLimiteGiros, gbc);
 
             gbc.gridx = 1;
             gbc.gridy = 2;
@@ -99,17 +97,15 @@ public class VentanaRegistroCliente extends JFrame{
 
             gbc.gridx = 2;
             gbc.gridy = 2;
-            this.add(jtfNombre, gbc);
+            cboTipoMoneda.addItem("Soles");
+            cboTipoMoneda.addItem("Dolares");
+            this.add(cboTipoMoneda, gbc);
             gbc.gridy++;
-            this.add(jtfApellido, gbc);
+            this.add(jtfSaldo, gbc);
             gbc.gridy++;
-            this.add(jtfDni, gbc);
+            this.add(jtfTasa, gbc);
             gbc.gridy++;
-            this.add(jtfDireccion, gbc);
-            gbc.gridy++;
-            this.add(jtfRazonSocial, gbc);
-            gbc.gridy++;
-            this.add(jtfRuc, gbc);
+            this.add(jtfLimiteGiros, gbc);
 
             gbc.gridx = 0;
             gbc.gridy++;
@@ -117,47 +113,44 @@ public class VentanaRegistroCliente extends JFrame{
             gbc.anchor = GridBagConstraints.CENTER;
             this.add(btnRegistrar, gbc);
 
-            cboTipoCliente.addItemListener(e -> {
-                if (cboTipoCliente.getSelectedItem() == "Natural") {
-                    jtfNombre.setEditable(true);
-                    jtfApellido.setEditable(true);
-                    jtfDni.setEditable(true);
-                    jtfRazonSocial.setEditable(false);
-                    jtfRuc.setEditable(false);
-                    jtfDireccion.setEditable(true);
-                    jtfRazonSocial.setText("");
-                    jtfRuc.setText("");
+            cboTipoCuenta.addItemListener(e -> {
+                if (cboTipoCuenta.getSelectedItem() == "Ahorro") {
+                    jtfSaldo.setEditable(true);
+                    jtfTasa.setEditable(true);
+                    jtfLimiteGiros.setEditable(false);
+                    jtfLimiteGiros.setText("");
                 } else {
-                    jtfNombre.setText("");
-                    jtfApellido.setText("");
-                    jtfDni.setText("");
-                    jtfNombre.setEditable(false);
-                    jtfApellido.setEditable(false);
-                    jtfDni.setEditable(false);
-                    jtfRazonSocial.setEditable(true);
-                    jtfRuc.setEditable(true);
-                    jtfDireccion.setEditable(true);
+                    jtfSaldo.setEditable(true);
+                    jtfTasa.setEditable(false);
+                    jtfLimiteGiros.setEditable(true);
+                    jtfTasa.setText("");
                 }
             });
 
             btnRegistrar.addActionListener(e -> {
-                String nombre = jtfNombre.getText() != null ? jtfNombre.getText() : "";
-                String apellido = jtfApellido.getText() != null ? jtfApellido.getText() : "";
-                String dni = jtfDni.getText() != null ? jtfDni.getText() : "";
-                String direccion = jtfDireccion.getText() != null ? jtfDireccion.getText() : "";
-                String razonSocial = jtfRazonSocial.getText() != null ? jtfRazonSocial.getText() : "";
-                String ruc = jtfRuc.getText() != null ? jtfRuc.getText() : "";
-                String tipoCliente = String.valueOf(cboTipoCliente.getSelectedItem());
+                Double saldo = jtfSaldo.getText().isEmpty() ? null : Double.parseDouble(jtfSaldo.getText());
+                String tipoMoneda = String.valueOf(cboTipoMoneda.getSelectedItem());
+                String tipoCuenta = String.valueOf(cboTipoCuenta.getSelectedItem());
+                Double tasaInteres = null;
+                Double limiteSobreGiros = null;
 
-                Cliente c  = new Cliente(null, direccion, null, tipoCliente, nombre, apellido, dni, razonSocial, ruc);
-                c.setDireccion(direccion);
-                c.setTipoCliente(tipoCliente);
-                c.setNombre(nombre);
-                c.setApellido(apellido);
-                c.setDni(dni);
-                c.setRazonSocial(razonSocial);
-                c.setRuc(ruc);
-                if (crudClienteModel.crear(c)) {
+                if (tipoCuenta.equals("Ahorro")) {
+                    tasaInteres = jtfTasa.getText().isEmpty() ? null : Double.parseDouble(jtfTasa.getText());
+                } else {
+                    limiteSobreGiros = jtfLimiteGiros.getText().isEmpty() ? null : Double.parseDouble(jtfLimiteGiros.getText());
+                }
+
+                Cliente cl = new Cliente();
+                cl.setIdCliente(idCliente);
+                Cuenta c  = new Cuenta();
+                c.setSaldo(saldo);
+                c.setTipoMoneda(tipoMoneda);
+                c.setTipoCuenta(tipoCuenta);
+                c.setCliente(cl);
+                c.setTasaInteres(tasaInteres);
+                c.setLimiteSobreGiros(limiteSobreGiros);
+
+                if (crudCuentaModel.crear(c)) {
                     JOptionPane.showMessageDialog(this, "Se ha registrado correctamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
                     dispose();
                 } else {
@@ -185,7 +178,7 @@ public class VentanaRegistroCliente extends JFrame{
     }
 
     class LienzoFooter extends JPanel{
-        private JButton btnSalir = new JButton("Salir");
+        private JButton btnSalir = new JButton("Cancelar");
         public LienzoFooter (){
             super();
             this.setLayout(new BorderLayout());
@@ -195,6 +188,8 @@ public class VentanaRegistroCliente extends JFrame{
             this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
             btnSalir.addActionListener(e -> {
+                ventanaClientes = new VentanaClientes();
+                ventanaClientes.setVisible(true);
                 dispose();
             });
         }

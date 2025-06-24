@@ -1,0 +1,1 @@
+Id_Cliente   Direccion                      Tipo_Cliente Nombre          Apellido        DNI        Razon_Social                   RUC            

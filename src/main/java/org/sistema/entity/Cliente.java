@@ -13,8 +13,10 @@ public class Cliente {
     private Integer idCliente;
     private String direccion;
     private List<Cuenta> cuentas;
-
-    public boolean esValido() {
-        return direccion != null;
-    }
+    private String tipoCliente;
+    private String nombre;
+    private String apellido;
+    private String dni;
+    private String razonSocial;
+    private String ruc;
 }

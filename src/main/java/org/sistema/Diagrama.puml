@@ -1,0 +1,156 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+package "entity" {
+    class Cuenta {
+        - Integer idCuenta
+        - Double saldo
+        - String tipoMoneda
+        - Cliente cliente
+        - String tipoCuenta
+        - Double tasaInteres
+        - Double limiteSobreGiros
+    }
+
+    class Cliente {
+        - Integer idCliente
+        - String direccion
+        - List<Cuenta> cuentas
+        - String tipoCliente
+        - String nombre
+        - String apellido
+        - String dni
+        - String razonSocial
+        - String ruc
+    }
+}
+
+package "interfaces" {
+    interface CrudInterface<T, ID> {
+        + boolean crear(T objeto)
+        + boolean update(T objeto)
+        + T getById(ID id)
+        + boolean delete(ID id)
+        + List<T> findAll()
+    }
+
+    interface PersistenceInterface<T> {
+        + boolean importarLista(List<T> lista)
+        + boolean exportarLista(List<T> lista)
+    }
+
+    interface RepositoryInterface<T, ID> {
+        + boolean save(T entity)
+        + boolean update(T entity)
+        + T getById(ID id)
+        + ID getId(T entity)
+        + boolean delete(ID id)
+        + List<T> findAll()
+        + boolean cargarDatos()
+    }
+}
+
+package "persistencia" {
+    abstract class Persistencia<T> {
+        # abstract String getFilePath()
+        # abstract T parsearLinea(String linea)
+        # abstract String getCabecera()
+        # abstract String formatObjeto(T objeto)
+        + boolean importarLista(List<T> lista)
+        + boolean exportarLista(List<T> lista)
+    }
+
+    class PersistenciaCliente {
+        # String getFilePath()
+        # Cliente parsearLinea(String linea)
+        # String getCabecera()
+        # String formatObjeto(Cliente cliente)
+    }
+
+    class PersistenciaCuenta {
+        # String getFilePath()
+        # Cuenta parsearLinea(String linea)
+        # String getCabecera()
+        # String formatObjeto(Cuenta cuenta)
+    }
+}
+
+package "repository" {
+    class Repository<T, ID> {
+        - List<T> elementos
+        - Function<T, ID> idExtractor
+        - PersistenceInterface<T> persistencia
+        + ID getId(T entity)
+        + boolean save(T entity)
+        + T getById(ID id)
+        + boolean delete(ID id)
+        + List<T> findAll()
+        + boolean update(T entity)
+        + boolean cargarDatos()
+    }
+}
+
+package "model" {
+    class CrudClienteModel {
+        - RepositoryInterface<Cliente, Integer> clienteRepository
+        + boolean crear(Cliente objeto)
+        + boolean update(Cliente objeto)
+        + Cliente getById(Integer id)
+        + boolean delete(Integer id)
+        + List<Cliente> findAll()
+    }
+
+    class CrudCuentaModel {
+        - RepositoryInterface<Cuenta, Integer> cuentaRepository
+        + boolean crear(Cuenta objeto)
+        + boolean update(Cuenta objeto)
+        + Cuenta getById(Integer id)
+        + boolean delete(Integer id)
+        + List<Cuenta> findAll()
+    }
+}
+
+package "vista" {
+    class VentanaClientes {
+        - CrudInterface<Cliente, Integer> crudClienteModel
+    }
+
+    class VentanaCuenta {
+        - CrudInterface<Cuenta, Integer> crudCuentaModel
+    }
+
+    class VentanaRegCuenta {
+        - CrudInterface<Cuenta, Integer> crudCuentaModel
+        - Integer idCliente
+    }
+
+    class VentanaRegistroCliente {
+        - CrudInterface<Cliente, Integer> crudClienteModel
+    }
+
+    class VentanaPrincipal {
+    }
+}
+
+' Relaciones
+Cliente "1" -- "N.*" Cuenta : tiene >
+VentanaClientes --> CrudClienteModel : usa
+VentanaCuenta --> CrudCuentaModel : usa
+VentanaRegCuenta --> CrudCuentaModel : usa
+VentanaRegistroCliente --> CrudClienteModel : usa
+VentanaPrincipal --> VentanaClientes : crea
+VentanaPrincipal --> VentanaCuenta : crea
+
+Persistencia ..|> PersistenceInterface : implementa
+PersistenciaCliente --|> Persistencia : hereda
+PersistenciaCuenta --|> Persistencia : hereda
+
+Repository ..|> RepositoryInterface : implementa
+CrudClienteModel ..|> CrudInterface : implementa
+CrudCuentaModel ..|> CrudInterface : implementa
+
+CrudClienteModel --> Repository : usa
+CrudCuentaModel --> Repository : usa
+Repository --> Persistencia : usa
+
+@enduml
