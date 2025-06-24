@@ -1,0 +1,2 @@
+Id_Cuenta    Saldo        Tipo_Moneda    Tipo_Cuenta    Tasa_Interes   Limite_Sobre_Giros Id_Cliente    
+1            null         Soles          Ahorro                                         1

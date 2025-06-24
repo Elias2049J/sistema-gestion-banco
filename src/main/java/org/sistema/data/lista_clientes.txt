@@ -1,0 +1,3 @@
+Id_Cliente   Direccion                      Tipo_Cliente Nombre          Apellido        DNI        Razon_Social                   RUC            
+3            Av. Cenizas 458 2do Piso       Natural      Humbe           Soprano         32165487                                                 
+1            Calle 13                       Natural      Jorge           Calderon        12345678
