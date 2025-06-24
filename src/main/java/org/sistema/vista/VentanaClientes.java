@@ -1,15 +1,20 @@
 package org.sistema.vista;
 
 import org.sistema.entity.Cliente;
+import org.sistema.entity.Cuenta;
 import org.sistema.interfaces.CrudInterface;
 import org.sistema.model.CrudClienteModel;
+import org.sistema.model.CrudCuentaModel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class VentanaClientes extends JFrame{
     private CrudInterface<Cliente, Integer> crudClienteModel;
+    private CrudInterface<Cuenta, Integer> crudCuentaModel;
+
     private LienzoCentral lienzoCentral;
     private LienzoHeader lienzoHeader;
     private LienzoFooter lienzoFooter;
@@ -19,6 +24,7 @@ public class VentanaClientes extends JFrame{
     public VentanaClientes() throws HeadlessException {
         super();
         this.crudClienteModel = new CrudClienteModel();
+        this.crudCuentaModel = new CrudCuentaModel();
         this.lienzoCentral = new LienzoCentral();
         this.lienzoHeader = new LienzoHeader();
         this.lienzoFooter = new LienzoFooter();
@@ -163,6 +169,22 @@ public class VentanaClientes extends JFrame{
                 int idCliente = Integer.parseInt(modeloTabla.getValueAt(fila, 0).toString());
                 int confirmacion = JOptionPane.showConfirmDialog(this, "¿Eliminar Cliente?", "Confirmar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (confirmacion != JOptionPane.YES_OPTION) return;
+                java.util.List<Cuenta> cuentaList = crudCuentaModel.findAll();
+
+                java.util.List<Cuenta> cuentasAEliminar = new ArrayList<>();
+
+                cuentaList.forEach(cuenta -> {
+                    if (cuenta.getCliente().getIdCliente() == idCliente) {
+                        cuentasAEliminar.add(cuenta);
+                    }
+                });
+
+                cuentasAEliminar.forEach(cuenta -> {
+                    crudCuentaModel.delete(cuenta.getIdCuenta());
+                });
+
+
+
                 if (crudClienteModel.delete(idCliente)) {
                     JOptionPane.showMessageDialog(this, "Cliente eliminado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                     actualizarTabla();
